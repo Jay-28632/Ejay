@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <script>
+function showPage(pageId) {
+ document.getElementById('register').style.display = 'none';
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('info').style.display = 'none';
+            document.getElementById(pageId).style.display = 'block';
+        }
+function registerUser(event) {
+            event.preventDefault();
+            let username = document.getElementById('reg-username').value;
+            let password = document.getElementById('reg-password').value;
+            let gender = document.getElementById('reg-gender').value;
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', btoa(password)); // Encode password
+            localStorage.setItem('gender', gender);
+            showPage('login');
+        }
+        
+
+function loginUser(event) {
+            event.preventDefault();
+            let username = document.getElementById('login-username').value;
+            let password = document.getElementById('login-password').value;
+            if (username === localStorage.getItem('username') && btoa(password) === localStorage.getItem('password')) {
+                showPage('info');
+                displayInfo();
+            } else {
+                alert('Invalid login credentials!');
+            }
+        }
+
+function displayInfo() {
+            document.getElementById('info-username').textContent = localStorage.getItem('username');
+            document.getElementById('info-gender').textContent = localStorage.getItem('gender');
+        }
+
+        
+    </script>
+</head>
+<body>
+    <center>
+        <div id="register">
+            <h2>Register</h2>
+            <form onsubmit="registerUser(event)">
+                <label>Username:</label>
+                <input type="text" id="reg-username" required><br>
+                <label>Password:</label>
+                <input type="password" id="reg-password" required><br>
+                <label>Gender:</label>
+                <select id="reg-gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div id="login" style="display:none;">
+            <h2>Login</h2>
+            <form onsubmit="loginUser(event)">
+                <label>Username:</label>
+                <input type="text" id="login-username" required><br>
+                <label>Password:</label>
+                <input type="password" id="login-password" required><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <div id="info" style="display:none;">
+            <h2>Welcome!</h2>
+            <p><strong>Username:</strong> <span id="info-username"></span></p>
+            <p><strong>Gender:</strong> <span id="info-gender"></span></p>
+        </div>
+    </center>
+</body>
+</html>
+
